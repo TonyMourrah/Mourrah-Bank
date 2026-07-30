@@ -1,0 +1,12 @@
+# Java / Maven
+backend/target/
+.idea/
+*.iml
+
+# Node / React (pour plus tard)
+frontend/node_modules/
+frontend/dist/
+
+# Général
+.env
+*.log
