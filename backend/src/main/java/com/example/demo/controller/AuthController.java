@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
+import com.example.demo.model.Utilisateur;
+import com.example.demo.repository.UtilisateurRepository;
 import com.example.demo.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
@@ -13,10 +15,13 @@ public class AuthController {
 
     private final AuthenticationManager authManager;
     private final JwtUtil jwtUtil;
+    private final UtilisateurRepository utilisateurRepository;
 
-    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil) {
+    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil,
+                           UtilisateurRepository utilisateurRepository) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     @PostMapping("/login")
@@ -27,7 +32,11 @@ public class AuthController {
                             request.getUsername(), request.getPassword()
                     )
             );
-            return ResponseEntity.ok(jwtUtil.generateToken(request.getUsername()));
+
+            Utilisateur user = utilisateurRepository.findByUsername(request.getUsername())
+                    .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+            return ResponseEntity.ok(jwtUtil.generateToken(user.getUsername(), user.getRole()));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Identifiants incorrects");
         }
