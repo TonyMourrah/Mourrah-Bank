@@ -14,6 +14,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand navbar-dark bg-primary px-4">
       <Link className="navbar-brand" to="/dashboard">Mourrah Bank</Link>
       <div className="navbar-nav me-auto">
+        <Link className="nav-link text-white" to="/">Accueil</Link>
         <Link className="nav-link text-white" to="/dashboard">Comptes</Link>
         <Link className="nav-link text-white" to="/virement">Virement</Link>
         <Link className="nav-link text-white" to="/transactions">Historique</Link>
