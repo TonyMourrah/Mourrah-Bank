@@ -12,10 +12,10 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand navbar-dark px-4 shadow-sm" style={{ backgroundColor: '#0a2540' }}>
-      <Link className="navbar-brand" to="/dashboard">Mourrah Bank</Link>
+      <Link className="navbar-brand" to="/dashboard">Mourrah Envelope</Link>
       <div className="navbar-nav me-auto">
-        <Link className="nav-link text-white-50 nav-hover" to="/dashboard">Comptes</Link>
-        <Link className="nav-link text-white-50 nav-hover" to="/virement">Virement</Link>
+        <Link className="nav-link text-white-50 nav-hover" to="/dashboard">Enveloppes</Link>
+        <Link className="nav-link text-white-50 nav-hover" to="/reallocation">Réallocation</Link>
         <Link className="nav-link text-white-50 nav-hover" to="/transactions">Historique</Link>
         <Link className="nav-link text-white-50 nav-hover" to="/about">À propos</Link>
       </div>

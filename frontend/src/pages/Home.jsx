@@ -12,7 +12,7 @@ export default function Home() {
       className="d-flex align-items-center justify-content-center vh-100 position-relative overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #0a2540 0%, #0d3a5c 60%, #0a2540 100%)' }}
     >
-      {/* Décor en arrière-plan */}
+
       <div
         className="position-absolute rounded-circle"
         style={{
@@ -37,7 +37,7 @@ export default function Home() {
           </span>
         </div>
 
-        <h1 className="display-4 fw-bold mb-3">Mourrah Bank</h1>
+        <h1 className="display-4 fw-bold mb-3">Mourrah Envelope</h1>
         <p className="lead mb-4 text-white-50">
           Une application bancaire complète — comptes, virements et historique,
           sécurisés de bout en bout et déployés sur Azure.

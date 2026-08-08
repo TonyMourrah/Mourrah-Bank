@@ -2,7 +2,7 @@ import { useState } from 'react';
 import api from '../api/axios';
 import Navbar from '../components/Navbar';
 
-export default function Virement() {
+export default function Reallocation() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [montant, setMontant] = useState('');
@@ -16,19 +16,19 @@ export default function Virement() {
     setShowConfirm(true);
   };
 
-  const handleConfirmVirement = async () => {
+  const handleConfirmReallocation = async () => {
     setLoading(true);
     setShowConfirm(false);
     try {
-      await api.put('/comptes/virement', {
+      await api.put('/enveloppes/reallocation', {
         from,
         to,
         montant: parseFloat(montant),
       });
-      setMessage({ type: 'success', text: 'Virement effectué avec succès.' });
+      setMessage({ type: 'success', text: 'Réallocation effectuée avec succès.' });
       setFrom(''); setTo(''); setMontant('');
     } catch (err) {
-      const text = err.response?.data || "Erreur lors du virement.";
+      const text = err.response?.data || "Erreur lors de la réallocation.";
       setMessage({ type: 'danger', text });
     } finally {
       setLoading(false);
@@ -40,7 +40,7 @@ export default function Virement() {
       <Navbar />
       <div className="container mt-4" style={{ maxWidth: '480px' }}>
         <h4 className="mb-3 fade-in">
-          <i className="bi bi-arrow-left-right text-primary me-2"></i>Faire un virement
+          <i className="bi bi-arrow-left-right text-primary me-2"></i>Réallouer entre enveloppes
         </h4>
 
         {message && (
@@ -52,11 +52,11 @@ export default function Virement() {
 
         <form onSubmit={handleOpenConfirm} className="card p-4 shadow-sm border-0 card-hover fade-in">
           <div className="mb-3">
-            <label className="form-label">Compte source (ID)</label>
+            <label className="form-label">Enveloppe source (ID)</label>
             <input className="form-control" value={from} onChange={(e) => setFrom(e.target.value)} required />
           </div>
           <div className="mb-3">
-            <label className="form-label">Compte destination (ID)</label>
+            <label className="form-label">Enveloppe destination (ID)</label>
             <input className="form-control" value={to} onChange={(e) => setTo(e.target.value)} required />
           </div>
           <div className="mb-3">
@@ -67,13 +67,12 @@ export default function Virement() {
             {loading ? (
               <><span className="spinner-border spinner-border-sm me-2"></span>Envoi...</>
             ) : (
-              'Envoyer'
+              'Réallouer'
             )}
           </button>
         </form>
       </div>
 
-      {/* Modale de confirmation */}
       {showConfirm && (
         <div
           className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center fade-in"
@@ -88,9 +87,9 @@ export default function Virement() {
             <div className="text-center mb-3">
               <i className="bi bi-exclamation-triangle text-warning" style={{ fontSize: '2.5rem' }}></i>
             </div>
-            <h5 className="text-center mb-3">Confirmer le virement ?</h5>
+            <h5 className="text-center mb-3">Confirmer la réallocation ?</h5>
             <p className="text-center text-muted mb-1">
-              Du compte <strong>{from}</strong> vers <strong>{to}</strong>
+              De l'enveloppe <strong>{from}</strong> vers <strong>{to}</strong>
             </p>
             <p className="text-center mb-4">
               <span className="fs-4 fw-bold text-primary">{parseFloat(montant || 0).toFixed(2)} $</span>
@@ -104,7 +103,7 @@ export default function Virement() {
               </button>
               <button
                 className="btn btn-primary w-100 social-btn"
-                onClick={handleConfirmVirement}
+                onClick={handleConfirmReallocation}
               >
                 Confirmer
               </button>

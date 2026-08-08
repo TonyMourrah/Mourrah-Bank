@@ -5,7 +5,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Virement from './pages/Virement';
+import Reallocation from './pages/Reallocation';
 import Transactions from './pages/Transactions';
 
 function PrivateRoute({ children }) {
@@ -21,7 +21,7 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-      <Route path="/virement" element={<PrivateRoute><Virement /></PrivateRoute>} />
+      <Route path="/reallocation" element={<PrivateRoute><Reallocation /></PrivateRoute>} />
       <Route path="/transactions" element={<PrivateRoute><Transactions /></PrivateRoute>} />
     </Routes>
   );

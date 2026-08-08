@@ -3,27 +3,27 @@ import api from '../api/axios';
 import Navbar from '../components/Navbar';
 
 export default function Dashboard() {
-  const [comptes, setComptes] = useState([]);
+  const [enveloppes, setEnveloppes] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   const [showForm, setShowForm] = useState(false);
   const [newId, setNewId] = useState('');
-  const [newTitulaire, setNewTitulaire] = useState('');
-  const [newSolde, setNewSolde] = useState('');
+  const [newNom, setNewNom] = useState('');
+  const [newMontant, setNewMontant] = useState('');
   const [creating, setCreating] = useState(false);
   const [formError, setFormError] = useState('');
 
-  const fetchComptes = () => {
+  const fetchEnveloppes = () => {
     setLoading(true);
-    api.get('/comptes')
-      .then((res) => setComptes(res.data))
-      .catch(() => setError("Impossible de charger les comptes."))
+    api.get('/enveloppes')
+      .then((res) => setEnveloppes(res.data))
+      .catch(() => setError("Impossible de charger les enveloppes."))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    fetchComptes();
+    fetchEnveloppes();
   }, []);
 
   const handleCreate = async (e) => {
@@ -31,16 +31,16 @@ export default function Dashboard() {
     setFormError('');
     setCreating(true);
     try {
-      await api.post('/comptes', {
+      await api.post('/enveloppes', {
         id: newId,
-        titulaire: newTitulaire,
-        solde: parseFloat(newSolde),
+        nom: newNom,
+        montant: parseFloat(newMontant),
       });
-      setNewId(''); setNewTitulaire(''); setNewSolde('');
+      setNewId(''); setNewNom(''); setNewMontant('');
       setShowForm(false);
-      fetchComptes();
+      fetchEnveloppes();
     } catch (err) {
-      setFormError(err.response?.data || "Erreur lors de la création du compte.");
+      setFormError(err.response?.data || "Erreur lors de la création de l'enveloppe.");
     } finally {
       setCreating(false);
     }
@@ -51,19 +51,19 @@ export default function Dashboard() {
       <Navbar />
       <div className="container mt-4">
         <div className="d-flex justify-content-between align-items-center mb-3 fade-in">
-          <h4 className="mb-0">Tes comptes</h4>
+          <h4 className="mb-0">Tes enveloppes</h4>
           <button
             className="btn btn-primary social-btn"
             onClick={() => setShowForm(!showForm)}
           >
             <i className={`bi ${showForm ? 'bi-x-lg' : 'bi-plus-lg'} me-1`}></i>
-            {showForm ? 'Annuler' : 'Nouveau compte'}
+            {showForm ? 'Annuler' : 'Nouvelle enveloppe'}
           </button>
         </div>
 
         {showForm && (
           <div className="card p-4 shadow-sm border-0 card-hover fade-in mb-4" style={{ maxWidth: '480px' }}>
-            <h6 className="mb-3">Créer un nouveau compte</h6>
+            <h6 className="mb-3">Créer une nouvelle enveloppe</h6>
 
             {formError && (
               <div className="alert alert-danger py-2 fade-in">
@@ -73,34 +73,34 @@ export default function Dashboard() {
 
             <form onSubmit={handleCreate}>
               <div className="mb-3">
-                <label className="form-label">ID du compte</label>
+                <label className="form-label">ID de l'enveloppe</label>
                 <input
                   className="form-control"
-                  placeholder="ex: C001"
+                  placeholder="ex: E001"
                   value={newId}
                   onChange={(e) => setNewId(e.target.value)}
                   required
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Titulaire</label>
+                <label className="form-label">Nom de l'enveloppe</label>
                 <input
                   className="form-control"
-                  placeholder="ex: Tony"
-                  value={newTitulaire}
-                  onChange={(e) => setNewTitulaire(e.target.value)}
+                  placeholder="ex: Épicerie"
+                  value={newNom}
+                  onChange={(e) => setNewNom(e.target.value)}
                   required
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Solde initial</label>
+                <label className="form-label">Montant initial</label>
                 <input
                   type="number"
                   step="0.01"
                   className="form-control"
-                  placeholder="ex: 1000"
-                  value={newSolde}
-                  onChange={(e) => setNewSolde(e.target.value)}
+                  placeholder="ex: 300"
+                  value={newMontant}
+                  onChange={(e) => setNewMontant(e.target.value)}
                   required
                 />
               </div>
@@ -108,7 +108,7 @@ export default function Dashboard() {
                 {creating ? (
                   <><span className="spinner-border spinner-border-sm me-2"></span>Création...</>
                 ) : (
-                  'Créer le compte'
+                  "Créer l'enveloppe"
                 )}
               </button>
             </form>
@@ -129,27 +129,27 @@ export default function Dashboard() {
           </div>
         )}
 
-        {!loading && comptes.length === 0 && !error && (
+        {!loading && enveloppes.length === 0 && !error && (
           <div className="text-center py-5 text-muted fade-in">
-            <i className="bi bi-wallet2" style={{ fontSize: '2.5rem' }}></i>
-            <p className="mt-2">Aucun compte pour l'instant. Crée-en un pour commencer.</p>
+            <i className="bi bi-envelope" style={{ fontSize: '2.5rem' }}></i>
+            <p className="mt-2">Aucune enveloppe pour l'instant. Crée-en une pour commencer.</p>
           </div>
         )}
 
         <div className="row g-3">
-          {comptes.map((compte, i) => (
-            <div className="col-md-4" key={compte.id}>
+          {enveloppes.map((enveloppe, i) => (
+            <div className="col-md-4" key={enveloppe.id}>
               <div
                 className="card shadow-sm border-0 card-hover fade-in"
                 style={{ animationDelay: `${i * 0.08}s` }}
               >
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-start mb-2">
-                    <h6 className="text-muted mb-0">{compte.titulaire}</h6>
-                    <i className="bi bi-credit-card-2-back text-primary"></i>
+                    <h6 className="text-muted mb-0">{enveloppe.nom}</h6>
+                    <i className="bi bi-envelope-fill text-primary"></i>
                   </div>
-                  <h3 className="text-primary fw-bold">{compte.solde.toFixed(2)} $</h3>
-                  <small className="text-muted">Compte #{compte.id}</small>
+                  <h3 className="text-primary fw-bold">{enveloppe.montant.toFixed(2)} $</h3>
+                  <small className="text-muted">Enveloppe #{enveloppe.id}</small>
                 </div>
               </div>
             </div>
