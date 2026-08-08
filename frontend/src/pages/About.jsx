@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const features = [
   "Authentification sécurisée avec JWT et rôles utilisateur",
@@ -26,15 +27,20 @@ const stack = [
 ];
 
 export default function About() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="bg-light min-vh-100">
       <div className="container py-5">
 
-        <Link to="/" className="btn btn-outline-secondary btn-sm mb-4">
-          <i className="bi bi-arrow-left me-1"></i> Retour à l'accueil
+        <Link
+          to={isAuthenticated ? '/dashboard' : '/'}
+          className="btn btn-outline-secondary btn-sm mb-4"
+        >
+          <i className="bi bi-arrow-left me-1"></i>
+          {isAuthenticated ? 'Retour au dashboard' : "Retour à l'accueil"}
         </Link>
 
-        {/* En-tête profil */}
         <div className="card shadow-sm p-4 mb-4 border-0 card-hover fade-in">
           <div className="d-flex align-items-center gap-4 flex-wrap">
             <div
@@ -79,7 +85,6 @@ export default function About() {
         </div>
 
         <div className="row g-4">
-          {/* À propos du projet */}
           <div className="col-lg-7">
             <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-1">
               <h5 className="mb-3">
@@ -103,7 +108,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Stack technique */}
           <div className="col-lg-5">
             <div className="card shadow-sm p-4 border-0 card-hover fade-in fade-in-delay-1">
               <h5 className="mb-3">

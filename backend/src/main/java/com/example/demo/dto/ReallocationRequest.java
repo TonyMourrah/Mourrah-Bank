@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-public class VirementRequest {
+public class ReallocationRequest {
     private String from;
     private String to;
     private double montant;
