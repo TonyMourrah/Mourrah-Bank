@@ -35,10 +35,10 @@ export default function About() {
         </Link>
 
         {/* En-tête profil */}
-        <div className="card shadow-sm p-4 mb-4 border-0">
+        <div className="card shadow-sm p-4 mb-4 border-0 card-hover fade-in">
           <div className="d-flex align-items-center gap-4 flex-wrap">
             <div
-              className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+              className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 avatar-glow"
               style={{
                 width: '110px',
                 height: '110px',
@@ -55,7 +55,7 @@ export default function About() {
                   href="https://github.com/TonyMourrah"
                   target="_blank"
                   rel="noreferrer"
-                  className="btn btn-dark btn-sm"
+                  className="btn btn-dark btn-sm social-btn"
                 >
                   <i className="bi bi-github me-1"></i>GitHub
                 </a>
@@ -63,13 +63,13 @@ export default function About() {
                   href="https://www.linkedin.com/in/tony-mourrah-b819551b2/"
                   target="_blank"
                   rel="noreferrer"
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm social-btn"
                 >
                   <i className="bi bi-linkedin me-1"></i>LinkedIn
                 </a>
                 <a
                   href="mailto:tony.mourrah.1@ens.etsmtl.ca"
-                  className="btn btn-outline-secondary btn-sm"
+                  className="btn btn-outline-secondary btn-sm social-btn"
                 >
                   <i className="bi bi-envelope me-1"></i>tony.mourrah.1@ens.etsmtl.ca
                 </a>
@@ -81,7 +81,7 @@ export default function About() {
         <div className="row g-4">
           {/* À propos du projet */}
           <div className="col-lg-7">
-            <div className="card shadow-sm p-4 h-100 border-0">
+            <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-1">
               <h5 className="mb-3">
                 <i className="bi bi-info-circle me-2 text-primary"></i>À propos du projet
               </h5>
@@ -105,25 +105,15 @@ export default function About() {
 
           {/* Stack technique */}
           <div className="col-lg-5">
-            <div className="card shadow-sm p-4 border-0">
+            <div className="card shadow-sm p-4 border-0 card-hover fade-in fade-in-delay-1">
               <h5 className="mb-3">
                 <i className="bi bi-stack me-2 text-primary"></i>Stack technique
               </h5>
               <div className="row g-2">
                 {stack.map((s) => (
                   <div className="col-6" key={s.name}>
-                    <div
-                      className="d-flex align-items-center gap-2 h-100 px-3 py-2"
-                      style={{
-                        backgroundColor: '#f8f9fa',
-                        border: '1px solid #e9ecef',
-                        borderRadius: '8px',
-                        fontSize: '0.88rem',
-                        fontWeight: 500,
-                        color: '#495057',
-                      }}
-                    >
-                      <i className={`bi ${s.icon} text-primary`}></i>
+                    <div className="tech-badge">
+                      <i className={`bi ${s.icon}`}></i>
                       {s.name}
                     </div>
                   </div>
