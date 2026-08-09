@@ -24,8 +24,11 @@ public class EnveloppeController {
     }
 
     @PostMapping
-    public Enveloppe postEnveloppe(@RequestBody Enveloppe nouvelleEnveloppe) {
-        return enveloppeService.sauvegarderEnveloppe(nouvelleEnveloppe);
+    public ResponseEntity<?> postEnveloppe(@RequestBody Enveloppe nouvelleEnveloppe) {
+        if (nouvelleEnveloppe.isNonAlloue()) {
+            return ResponseEntity.status(409).body("Le réservoir non alloué existe déjà et est unique.");
+        }
+        return ResponseEntity.ok(enveloppeService.sauvegarderEnveloppe(nouvelleEnveloppe));
     }
 
     @PutMapping("/reallocation")
@@ -37,5 +40,14 @@ public class EnveloppeController {
     @DeleteMapping("/{id}")
     public void supprimerEnveloppe(@PathVariable String id) {
         enveloppeService.supprimer(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEnveloppe(@PathVariable String id, @RequestBody Enveloppe donnees) {
+        try {
+            return ResponseEntity.ok(enveloppeService.mettreAJour(id, donnees));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 }

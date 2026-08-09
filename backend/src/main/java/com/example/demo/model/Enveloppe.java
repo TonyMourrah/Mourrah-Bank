@@ -10,14 +10,20 @@ public class Enveloppe {
 
     private String nom;
     private double montant;
+    private double limite;
+    private boolean nonAlloue;
+    private String type;
 
     public Enveloppe() {
     }
 
-    public Enveloppe(String id, String nom, double montant) {
+    public Enveloppe(String id, String nom, double montant, double limite, boolean nonAlloue, String type) {
         this.id = id;
         this.nom = nom;
         this.montant = montant;
+        this.limite = limite;
+        this.nonAlloue = nonAlloue;
+        this.type = type;
     }
 
     public String getId() {
@@ -29,12 +35,29 @@ public class Enveloppe {
     public double getMontant() {
         return montant;
     }
+    public double getLimite() {
+        return limite;
+    }
+    public boolean isNonAlloue() {
+        return nonAlloue;
+    }
+    public String getType() {
+        return type;
+    }
 
     public void setMontant(double m) {
         this.montant = m;
     }
-
     public void setNom(String n) {
         this.nom = n;
+    }
+    public void setLimite(double l) {
+        this.limite = l;
+    }
+    public void setNonAlloue(boolean nonAlloue) {
+        this.nonAlloue = nonAlloue;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
 }

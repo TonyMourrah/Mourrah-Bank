@@ -52,4 +52,16 @@ public class EnveloppeService {
         }
         repository.deleteById(id);
     }
+
+    public Enveloppe mettreAJour(String id, Enveloppe donnees) {
+        Enveloppe existante = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Enveloppe introuvable"));
+
+        existante.setNom(donnees.getNom());
+        existante.setMontant(donnees.getMontant());
+        existante.setLimite(donnees.getLimite());
+        existante.setType(donnees.getType());
+
+        return repository.save(existante);
+    }
 }

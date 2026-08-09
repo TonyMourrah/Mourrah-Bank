@@ -40,7 +40,7 @@ export default function Register() {
       style={{ background: 'linear-gradient(135deg, #0a2540 0%, #0d3a5c 100%)' }}
     >
       <div className="card shadow-lg p-4 border-0 card-hover fade-in" style={{ width: '400px' }}>
-        <h3 className="mb-1 text-primary fw-bold">Mourrah Bank</h3>
+        <h3 className="mb-1 text-primary fw-bold">Mourrah Envelope</h3>
         <p className="text-muted mb-4">Crée ton compte</p>
 
         {error && (

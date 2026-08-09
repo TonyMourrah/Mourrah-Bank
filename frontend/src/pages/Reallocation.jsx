@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import Navbar from '../components/Navbar';
 
 export default function Reallocation() {
+  const [enveloppes, setEnveloppes] = useState([]);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [montant, setMontant] = useState('');
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  useEffect(() => {
+    api.get('/enveloppes').then((res) => setEnveloppes(res.data));
+  }, []);
+
+  const getNomById = (id) => enveloppes.find((e) => e.id === id)?.nom || id;
 
   const handleOpenConfirm = (e) => {
     e.preventDefault();
@@ -27,6 +34,8 @@ export default function Reallocation() {
       });
       setMessage({ type: 'success', text: 'Réallocation effectuée avec succès.' });
       setFrom(''); setTo(''); setMontant('');
+      const res = await api.get('/enveloppes');
+      setEnveloppes(res.data);
     } catch (err) {
       const text = err.response?.data || "Erreur lors de la réallocation.";
       setMessage({ type: 'danger', text });
@@ -52,12 +61,36 @@ export default function Reallocation() {
 
         <form onSubmit={handleOpenConfirm} className="card p-4 shadow-sm border-0 card-hover fade-in">
           <div className="mb-3">
-            <label className="form-label">Enveloppe source (ID)</label>
-            <input className="form-control" value={from} onChange={(e) => setFrom(e.target.value)} required />
+            <label className="form-label">Enveloppe source</label>
+            <select
+              className="form-select"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              required
+            >
+              <option value="" disabled>Choisir une enveloppe...</option>
+              {enveloppes.map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.nonAlloue ? '💰 ' : ''}{e.nom} ({e.montant.toFixed(2)} $)
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-3">
-            <label className="form-label">Enveloppe destination (ID)</label>
-            <input className="form-control" value={to} onChange={(e) => setTo(e.target.value)} required />
+            <label className="form-label">Enveloppe destination</label>
+            <select
+              className="form-select"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              required
+            >
+              <option value="" disabled>Choisir une enveloppe...</option>
+              {enveloppes.map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.nonAlloue ? '💰 ' : ''}{e.nom} ({e.montant.toFixed(2)} $)
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-3">
             <label className="form-label">Montant</label>
@@ -89,7 +122,7 @@ export default function Reallocation() {
             </div>
             <h5 className="text-center mb-3">Confirmer la réallocation ?</h5>
             <p className="text-center text-muted mb-1">
-              De l'enveloppe <strong>{from}</strong> vers <strong>{to}</strong>
+              De <strong>{getNomById(from)}</strong> vers <strong>{getNomById(to)}</strong>
             </p>
             <p className="text-center mb-4">
               <span className="fs-4 fw-bold text-primary">{parseFloat(montant || 0).toFixed(2)} $</span>
