@@ -12,6 +12,10 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.dto.ChangePasswordRequest;
+import org.springframework.security.core.Authentication;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,9 +28,9 @@ public class AuthController {
     private final CommonPasswordChecker commonPasswordChecker;
 
     public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil,
-                           UtilisateurRepository utilisateurRepository,
-                           PasswordEncoder passwordEncoder,
-                           CommonPasswordChecker commonPasswordChecker) {
+            UtilisateurRepository utilisateurRepository,
+            PasswordEncoder passwordEncoder,
+            CommonPasswordChecker commonPasswordChecker) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.utilisateurRepository = utilisateurRepository;
@@ -58,9 +62,7 @@ public class AuthController {
         try {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getUsername(), request.getPassword()
-                    )
-            );
+                            request.getUsername(), request.getPassword()));
 
             Utilisateur user = utilisateurRepository.findByUsername(request.getUsername())
                     .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
@@ -69,5 +71,33 @@ public class AuthController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Identifiants incorrects");
         }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+        Utilisateur user = utilisateurRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+        Map<String, String> response = new HashMap<>();
+        response.put("username", user.getUsername());
+        response.put("role", user.getRole());
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(Authentication authentication,
+            @jakarta.validation.Valid @RequestBody ChangePasswordRequest request) {
+        Utilisateur user = utilisateurRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return ResponseEntity.status(400).body("Mot de passe actuel incorrect");
+        }
+        if (commonPasswordChecker.isCommon(request.getNewPassword())) {
+            return ResponseEntity.status(400).body("Ce mot de passe est trop commun, choisis-en un autre");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        utilisateurRepository.save(user);
+        return ResponseEntity.ok("Mot de passe modifié avec succès");
     }
 }

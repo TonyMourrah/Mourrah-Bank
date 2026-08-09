@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Reallocation from "./pages/Reallocation";
 import Transactions from "./pages/Transactions";
 import ServerWakingOverlay from "./components/ServerWakingOverlay";
+import Settings from "./pages/Settings";
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" />;
@@ -41,6 +42,22 @@ function AppRoutes() {
         element={
           <PrivateRoute>
             <Transactions />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <PrivateRoute>
+            <Settings />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <PrivateRoute>
+            <Settings />
           </PrivateRoute>
         }
       />
