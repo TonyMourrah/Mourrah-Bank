@@ -122,22 +122,28 @@ export default function Dashboard() {
       );
     }
 
-    const pctRestant = Math.max(0, Math.min(100, (enveloppe.montant / enveloppe.limite) * 100));
-    const depasse = enveloppe.montant > enveloppe.limite;
+    const depense = enveloppe.limite - enveloppe.montant;
+    const pctDepense = Math.max(0, Math.min(100, (depense / enveloppe.limite) * 100));
+    const depasse = enveloppe.montant < 0;
+
     let barColor = 'bg-success';
-    if (pctRestant <= 20) barColor = 'bg-danger';
-    else if (pctRestant <= 50) barColor = 'bg-warning';
+    if (pctDepense >= 100 || depasse) barColor = 'bg-danger';
+    else if (pctDepense >= 80) barColor = 'bg-warning';
 
     return (
       <div className="mt-2">
         <div className="d-flex justify-content-between mb-1">
           <small className="text-muted">Limite : {enveloppe.limite.toFixed(2)} $</small>
-          <small className={depasse ? 'text-danger fw-bold' : 'text-muted'}>{pctRestant.toFixed(0)}% restant</small>
+          <small className={depasse || pctDepense >= 100 ? 'text-danger fw-bold' : 'text-muted'}>
+            {pctDepense.toFixed(0)}% dépensé
+          </small>
         </div>
         <div className="progress" style={{ height: '8px' }}>
-          <div className={`progress-bar ${barColor}`} style={{ width: `${pctRestant}%`, transition: 'width 0.4s ease' }} />
+          <div className={`progress-bar ${barColor}`} style={{ width: `${pctDepense}%`, transition: 'width 0.4s ease' }} />
         </div>
-        {depasse && <small className="text-danger"><i className="bi bi-exclamation-triangle-fill me-1"></i>Limite dépassée</small>}
+        {(depasse || pctDepense >= 100) && (
+          <small className="text-danger"><i className="bi bi-exclamation-triangle-fill me-1"></i>Limite atteinte ou dépassée</small>
+        )}
       </div>
     );
   };
@@ -224,8 +230,15 @@ export default function Dashboard() {
               </div>
 
               <div className="mb-3">
-                <label className="form-label">Montant initial</label>
+                <label className="form-label">
+                  {newType === 'BUDGET' ? 'Montant disponible à dépenser' : 'Montant déjà épargné'}
+                </label>
                 <input type="number" step="0.01" className="form-control" placeholder="ex: 300" value={newMontant} onChange={(e) => setNewMontant(e.target.value)} required />
+                {newType === 'BUDGET' && (
+                  <div className="form-text">
+                    Ce montant diminue à mesure que tu réalloues (dépenses) de l'argent hors de cette enveloppe.
+                  </div>
+                )}
               </div>
               <div className="mb-3">
                 <label className="form-label">
@@ -357,7 +370,9 @@ export default function Dashboard() {
               )}
 
               <div className="mb-3">
-                <label className="form-label">Montant</label>
+                <label className="form-label">
+                  {!editing.nonAlloue && editType === 'BUDGET' ? 'Montant disponible à dépenser' : 'Montant'}
+                </label>
                 <input type="number" step="0.01" className="form-control" value={editMontant} onChange={(e) => setEditMontant(e.target.value)} required />
               </div>
 
