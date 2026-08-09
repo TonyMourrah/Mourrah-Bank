@@ -53,7 +53,7 @@ public class EnveloppeService {
         repository.deleteById(id);
     }
 
-    public Enveloppe mettreAJour(String id, Enveloppe donnees) {
+    public Enveloppe mettreAJour(String id, com.example.demo.dto.EnveloppeUpdateRequest donnees) {
         Enveloppe existante = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Enveloppe introuvable"));
 

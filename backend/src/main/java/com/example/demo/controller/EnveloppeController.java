@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EnveloppeUpdateRequest;
 import com.example.demo.dto.ReallocationRequest;
 import com.example.demo.model.Enveloppe;
 import com.example.demo.service.EnveloppeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -43,7 +43,7 @@ public class EnveloppeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEnveloppe(@PathVariable String id, @RequestBody Enveloppe donnees) {
+    public ResponseEntity<?> updateEnveloppe(@PathVariable String id, @RequestBody EnveloppeUpdateRequest donnees) {
         try {
             return ResponseEntity.ok(enveloppeService.mettreAJour(id, donnees));
         } catch (RuntimeException e) {
