@@ -47,18 +47,13 @@ export default function ServerWakingOverlay() {
 
   return (
     <div
-      className="position-fixed top-0 start-0 w-100 d-flex align-items-center justify-content-center gap-2"
+      className="position-fixed top-0 start-0 w-100 d-flex align-items-center justify-content-center gap-2 py-2"
       style={{
         backgroundColor: '#0a2540',
         color: 'white',
         zIndex: 2000,
         fontSize: '0.9rem',
-        overflow: 'hidden',
-        maxHeight: show ? '40px' : '0px',
-        opacity: show ? 1 : 0,
-        padding: show ? '8px 0' : '0',
-        transition: 'max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease',
-        pointerEvents: 'none',
+        display: show ? 'flex' : 'none',
       }}
     >
       <span className="spinner-border spinner-border-sm"></span>
