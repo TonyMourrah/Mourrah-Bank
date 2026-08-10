@@ -36,7 +36,8 @@ export default function Login() {
       await login(username, password);
       navigate('/dashboard');
     } catch (err) {
-      setError('Identifiants incorrects. Réessaie.');
+      const data = err.response?.data;
+      setError(typeof data === 'string' ? data : 'Identifiants incorrects. Réessaie.');
     } finally {
       setLoading(false);
     }

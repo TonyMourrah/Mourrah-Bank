@@ -6,14 +6,16 @@ import com.example.demo.model.Utilisateur;
 import com.example.demo.repository.UtilisateurRepository;
 import com.example.demo.security.CommonPasswordChecker;
 import com.example.demo.security.JwtUtil;
+import com.example.demo.security.LoginAttemptService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.dto.ChangePasswordRequest;
-import org.springframework.security.core.Authentication;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,16 +28,19 @@ public class AuthController {
     private final UtilisateurRepository utilisateurRepository;
     private final PasswordEncoder passwordEncoder;
     private final CommonPasswordChecker commonPasswordChecker;
+    private final LoginAttemptService loginAttemptService;
 
     public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil,
             UtilisateurRepository utilisateurRepository,
             PasswordEncoder passwordEncoder,
-            CommonPasswordChecker commonPasswordChecker) {
+            CommonPasswordChecker commonPasswordChecker,
+            LoginAttemptService loginAttemptService) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.utilisateurRepository = utilisateurRepository;
         this.passwordEncoder = passwordEncoder;
         this.commonPasswordChecker = commonPasswordChecker;
+        this.loginAttemptService = loginAttemptService;
     }
 
     @PostMapping("/register")
@@ -59,17 +64,39 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest request) {
+        String username = request.getUsername();
+
+        if (loginAttemptService.isLocked(username)) {
+            long minutes = loginAttemptService.getRemainingLockoutMinutes(username);
+            return ResponseEntity.status(429).body(
+                "Trop de tentatives échouées. Réessaie dans " + minutes + " minute(s)."
+            );
+        }
+
         try {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getUsername(), request.getPassword()));
+                            username, request.getPassword()));
 
-            Utilisateur user = utilisateurRepository.findByUsername(request.getUsername())
+            loginAttemptService.loginSucceeded(username);
+
+            Utilisateur user = utilisateurRepository.findByUsername(username)
                     .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
             return ResponseEntity.ok(jwtUtil.generateToken(user.getUsername(), user.getRole()));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body("Identifiants incorrects");
+            loginAttemptService.loginFailed(username);
+            int remaining = loginAttemptService.getAttemptsRemaining(username);
+
+            if (remaining > 0) {
+                return ResponseEntity.status(401).body(
+                    "Identifiants incorrects. " + remaining + " tentative(s) restante(s)."
+                );
+            } else {
+                return ResponseEntity.status(429).body(
+                    "Trop de tentatives échouées. Compte temporairement verrouillé."
+                );
+            }
         }
     }
 
@@ -85,7 +112,7 @@ public class AuthController {
 
     @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(Authentication authentication,
-            @jakarta.validation.Valid @RequestBody ChangePasswordRequest request) {
+            @Valid @RequestBody ChangePasswordRequest request) {
         Utilisateur user = utilisateurRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
