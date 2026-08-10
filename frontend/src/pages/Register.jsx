@@ -8,6 +8,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,6 +21,7 @@ export default function Register() {
       return;
     }
 
+    setLoading(true);
     try {
       await api.post('/auth/register', { username, password });
       setSuccess('Compte créé avec succès ! Redirection vers la connexion...');
@@ -31,6 +33,8 @@ export default function Register() {
       } else {
         setError(data || "Erreur lors de la création du compte.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,8 +90,15 @@ export default function Register() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100 social-btn">
-            Créer le compte
+          <button type="submit" className="btn btn-primary w-100 social-btn" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Réveil du serveur, patiente...
+              </>
+            ) : (
+              'Créer le compte'
+            )}
           </button>
         </form>
 
