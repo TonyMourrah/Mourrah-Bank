@@ -18,6 +18,11 @@ export default function Navbar() {
         <Link className="nav-link text-white-50 nav-hover" to="/reallocation">Réallocation</Link>
         <Link className="nav-link text-white-50 nav-hover" to="/transactions">Historique</Link>
         <Link className="nav-link text-white-50 nav-hover" to="/settings">Paramètres</Link>
+        {user?.role === 'ADMIN' && (
+          <Link className="nav-link text-white-50 nav-hover" to="/admin">
+            <i className="bi bi-shield-lock me-1"></i>Admin
+          </Link>
+        )}
         <Link className="nav-link text-white-50 nav-hover" to="/about">À propos</Link>
       </div>
       {user && (

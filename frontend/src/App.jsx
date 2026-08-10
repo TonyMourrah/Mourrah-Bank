@@ -8,10 +8,19 @@ import Dashboard from './pages/Dashboard';
 import Reallocation from './pages/Reallocation';
 import Transactions from './pages/Transactions';
 import Settings from './pages/Settings';
+import Admin from './pages/Admin';
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" />;
+}
+
+function AdminRoute({ children }) {
+  const { isAuthenticated, user } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!user) return null;
+  if (user.role !== 'ADMIN') return <Navigate to="/dashboard" />;
+  return children;
 }
 
 function AppRoutes() {
@@ -25,6 +34,7 @@ function AppRoutes() {
       <Route path="/reallocation" element={<PrivateRoute><Reallocation /></PrivateRoute>} />
       <Route path="/transactions" element={<PrivateRoute><Transactions /></PrivateRoute>} />
       <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+      <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
     </Routes>
   );
 }
