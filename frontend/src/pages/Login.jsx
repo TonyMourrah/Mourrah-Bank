@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -6,17 +6,39 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const tickRef = useRef(null);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loading) {
+      setSeconds(0);
+      tickRef.current = setInterval(() => setSeconds((s) => s + 1), 1000);
+    } else {
+      clearInterval(tickRef.current);
+    }
+    return () => clearInterval(tickRef.current);
+  }, [loading]);
+
+  const getLoadingMessage = () => {
+    if (seconds < 3) return 'Connexion...';
+    if (seconds < 20) return 'Réveil du serveur en cours...';
+    return 'Toujours en train de démarrer, encore un instant...';
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       await login(username, password);
       navigate('/dashboard');
     } catch (err) {
       setError('Identifiants incorrects. Réessaie.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,6 +65,7 @@ export default function Login() {
               className="form-control"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              disabled={loading}
               required
             />
           </div>
@@ -53,11 +76,16 @@ export default function Login() {
               className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100 social-btn">
-            Se connecter
+          <button type="submit" className="btn btn-primary w-100 social-btn" disabled={loading}>
+            {loading ? (
+              <><span className="spinner-border spinner-border-sm me-2"></span>{getLoadingMessage()}</>
+            ) : (
+              'Se connecter'
+            )}
           </button>
         </form>
 
