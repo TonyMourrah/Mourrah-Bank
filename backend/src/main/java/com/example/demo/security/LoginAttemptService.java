@@ -31,7 +31,8 @@ public class LoginAttemptService {
 
     public boolean isLocked(String username) {
         Instant until = lockoutUntil.get(username);
-        if (until == null) return false;
+        if (until == null)
+            return false;
 
         if (Instant.now().isAfter(until)) {
             lockoutUntil.remove(username);
@@ -43,7 +44,8 @@ public class LoginAttemptService {
 
     public long getRemainingLockoutMinutes(String username) {
         Instant until = lockoutUntil.get(username);
-        if (until == null) return 0;
+        if (until == null)
+            return 0;
         long seconds = Instant.now().until(until, java.time.temporal.ChronoUnit.SECONDS);
         return Math.max(0, (seconds + 59) / 60);
     }
@@ -52,5 +54,11 @@ public class LoginAttemptService {
         AtomicInteger count = attempts.get(username);
         int used = count == null ? 0 : count.get();
         return Math.max(0, MAX_ATTEMPTS - used);
+    }
+
+    public int getLockedAccountsCount() {
+        return (int) lockoutUntil.values().stream()
+                .filter(until -> Instant.now().isBefore(until))
+                .count();
     }
 }

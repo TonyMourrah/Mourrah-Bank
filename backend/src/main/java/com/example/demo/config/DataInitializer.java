@@ -1,9 +1,9 @@
 package com.example.demo.config;
 
-import com.example.demo.model.Enveloppe;
-import com.example.demo.model.Utilisateur;
 import com.example.demo.repository.EnveloppeRepository;
 import com.example.demo.repository.UtilisateurRepository;
+import com.example.demo.model.Utilisateur;
+import com.example.demo.service.EnveloppeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -13,15 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class DataInitializer {
 
-    @Value("${admin.username:tony}")
+    @Value("${admin.username}")
     private String adminUsername;
 
-    @Value("${admin.password:changeMoiEnLocal123456}")
+    @Value("${admin.password}")
     private String adminPassword;
 
     @Bean
     public CommandLineRunner initData(UtilisateurRepository userRepo,
                                        EnveloppeRepository enveloppeRepo,
+                                       EnveloppeService enveloppeService,
                                        PasswordEncoder encoder) {
         return args -> {
             if (userRepo.findByUsername(adminUsername).isEmpty()) {
@@ -32,15 +33,7 @@ public class DataInitializer {
                 userRepo.save(u);
             }
 
-            boolean nonAlloueExiste = enveloppeRepo.findAll().stream()
-                    .anyMatch(Enveloppe::isNonAlloue);
-
-            if (!nonAlloueExiste) {
-                Enveloppe reservoir = new Enveloppe(
-                        "NONALLOUE", "Non alloué", 0, 0, true, "BUDGET"
-                );
-                enveloppeRepo.save(reservoir);
-            }
+            enveloppeService.creerReservoirNonAlloue(adminUsername);
         };
     }
 }

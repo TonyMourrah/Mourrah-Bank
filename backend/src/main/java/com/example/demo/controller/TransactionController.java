@@ -1,6 +1,8 @@
 package com.example.demo.controller;
+
 import com.example.demo.model.Transaction;
 import com.example.demo.service.TransactionService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +19,7 @@ public class TransactionController {
     }
 
     @GetMapping
-    public List<Transaction> getHistory() {
-        return transactionService.listerTout();
+    public List<Transaction> getHistory(Authentication authentication) {
+        return transactionService.listerTout(authentication.getName());
     }
-
-
 }

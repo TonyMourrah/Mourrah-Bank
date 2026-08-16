@@ -18,19 +18,20 @@ public class EnveloppeService {
         this.transactionService = transactionService;
     }
 
-    public List<Enveloppe> obtenirToutesLesEnveloppes() {
-        return repository.findAll();
+    public List<Enveloppe> obtenirToutesLesEnveloppes(String username) {
+        return repository.findByUtilisateurUsername(username);
     }
 
-    public Enveloppe sauvegarderEnveloppe(Enveloppe enveloppe) {
+    public Enveloppe sauvegarderEnveloppe(Enveloppe enveloppe, String username) {
+        enveloppe.setUtilisateurUsername(username);
         return repository.save(enveloppe);
     }
 
     @Transactional
-    public void reallouer(String idSource, String idDestination, double montant) {
-        Enveloppe source = repository.findById(idSource)
+    public void reallouer(String idSource, String idDestination, double montant, String username) {
+        Enveloppe source = repository.findByIdAndUtilisateurUsername(idSource, username)
                 .orElseThrow(() -> new RuntimeException("Enveloppe source introuvable"));
-        Enveloppe destination = repository.findById(idDestination)
+        Enveloppe destination = repository.findByIdAndUtilisateurUsername(idDestination, username)
                 .orElseThrow(() -> new RuntimeException("Enveloppe destination introuvable"));
 
         if (source.getMontant() < montant) {
@@ -43,18 +44,10 @@ public class EnveloppeService {
         repository.save(source);
         repository.save(destination);
 
-        transactionService.enregistrer(idSource, idDestination, montant, "Réallocation entre enveloppes");
-    }
+transactionService.enregistrer(idSource, idDestination, montant, "Réallocation entre enveloppes", username);    }
 
-    public void supprimer(String id) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("Impossible de supprimer : Enveloppe introuvable avec l'ID : " + id);
-        }
-        repository.deleteById(id);
-    }
-
-    public Enveloppe mettreAJour(String id, com.example.demo.dto.EnveloppeUpdateRequest donnees) {
-        Enveloppe existante = repository.findById(id)
+    public Enveloppe mettreAJour(String id, com.example.demo.dto.EnveloppeUpdateRequest donnees, String username) {
+        Enveloppe existante = repository.findByIdAndUtilisateurUsername(id, username)
                 .orElseThrow(() -> new RuntimeException("Enveloppe introuvable"));
 
         existante.setNom(donnees.getNom());
@@ -63,5 +56,24 @@ public class EnveloppeService {
         existante.setType(donnees.getType());
 
         return repository.save(existante);
+    }
+
+    public void supprimer(String id, String username) {
+        Enveloppe existante = repository.findByIdAndUtilisateurUsername(id, username)
+                .orElseThrow(() -> new RuntimeException("Enveloppe introuvable"));
+        repository.delete(existante);
+    }
+
+    public void creerReservoirNonAlloue(String username) {
+        boolean existe = repository.findByUtilisateurUsername(username).stream()
+                .anyMatch(Enveloppe::isNonAlloue);
+
+        if (!existe) {
+            Enveloppe reservoir = new Enveloppe(
+                    "NONALLOUE-" + username, "Non alloué", 0, 0, true, "BUDGET"
+            );
+            reservoir.setUtilisateurUsername(username);
+            repository.save(reservoir);
+        }
     }
 }

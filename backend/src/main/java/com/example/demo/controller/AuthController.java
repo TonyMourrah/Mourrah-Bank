@@ -7,6 +7,7 @@ import com.example.demo.repository.UtilisateurRepository;
 import com.example.demo.security.CommonPasswordChecker;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.security.LoginAttemptService;
+import com.example.demo.service.EnveloppeService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
@@ -29,18 +30,21 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final CommonPasswordChecker commonPasswordChecker;
     private final LoginAttemptService loginAttemptService;
+    private final EnveloppeService enveloppeService;
 
     public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil,
             UtilisateurRepository utilisateurRepository,
             PasswordEncoder passwordEncoder,
             CommonPasswordChecker commonPasswordChecker,
-            LoginAttemptService loginAttemptService) {
+            LoginAttemptService loginAttemptService,
+            EnveloppeService enveloppeService) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.utilisateurRepository = utilisateurRepository;
         this.passwordEncoder = passwordEncoder;
         this.commonPasswordChecker = commonPasswordChecker;
         this.loginAttemptService = loginAttemptService;
+        this.enveloppeService = enveloppeService;
     }
 
     @PostMapping("/register")
@@ -58,6 +62,8 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole("CLIENT");
         utilisateurRepository.save(user);
+
+        enveloppeService.creerReservoirNonAlloue(user.getUsername());
 
         return ResponseEntity.ok("Compte créé avec succès");
     }

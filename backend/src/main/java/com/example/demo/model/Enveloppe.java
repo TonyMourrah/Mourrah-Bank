@@ -13,6 +13,7 @@ public class Enveloppe {
     private double limite;
     private boolean nonAlloue;
     private String type;
+    private String utilisateurUsername;
 
     public Enveloppe() {
     }
@@ -44,6 +45,9 @@ public class Enveloppe {
     public String getType() {
         return type;
     }
+    public String getUtilisateurUsername() {
+        return utilisateurUsername;
+    }
 
     public void setMontant(double m) {
         this.montant = m;
@@ -59,5 +63,8 @@ public class Enveloppe {
     }
     public void setType(String type) {
         this.type = type;
+    }
+    public void setUtilisateurUsername(String utilisateurUsername) {
+        this.utilisateurUsername = utilisateurUsername;
     }
 }

@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Enveloppe;
 import com.example.demo.model.Utilisateur;
+import com.example.demo.repository.EnveloppeRepository;
+import com.example.demo.repository.TransactionRepository;
 import com.example.demo.repository.UtilisateurRepository;
+import com.example.demo.security.LoginAttemptService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +20,18 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final UtilisateurRepository utilisateurRepository;
+    private final EnveloppeRepository enveloppeRepository;
+    private final TransactionRepository transactionRepository;
+    private final LoginAttemptService loginAttemptService;
 
-    public AdminController(UtilisateurRepository utilisateurRepository) {
+    public AdminController(UtilisateurRepository utilisateurRepository,
+                            EnveloppeRepository enveloppeRepository,
+                            TransactionRepository transactionRepository,
+                            LoginAttemptService loginAttemptService) {
         this.utilisateurRepository = utilisateurRepository;
+        this.enveloppeRepository = enveloppeRepository;
+        this.transactionRepository = transactionRepository;
+        this.loginAttemptService = loginAttemptService;
     }
 
     @GetMapping("/users")
@@ -58,5 +71,39 @@ public class AdminController {
 
         utilisateurRepository.deleteById(id);
         return ResponseEntity.ok("Utilisateur supprimé");
+    }
+
+    @GetMapping("/stats")
+    public Map<String, Object> getStats() {
+        long totalUsers = utilisateurRepository.count();
+        long admins = utilisateurRepository.findAll().stream()
+                .filter(u -> "ADMIN".equals(u.getRole()))
+                .count();
+
+        List<Enveloppe> toutesEnveloppes = enveloppeRepository.findAll();
+        List<Enveloppe> categories = toutesEnveloppes.stream()
+                .filter(e -> !e.isNonAlloue())
+                .collect(Collectors.toList());
+
+        long budgetCount = categories.stream().filter(e -> "BUDGET".equals(e.getType())).count();
+        long epargneCount = categories.stream().filter(e -> "EPARGNE".equals(e.getType())).count();
+
+        double moyenneEnveloppesParUser = totalUsers > 0
+                ? Math.round((double) categories.size() / totalUsers * 10) / 10.0
+                : 0;
+
+        long totalTransactions = transactionRepository.count();
+        int comptesVerrouilles = loginAttemptService.getLockedAccountsCount();
+
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalUsers", totalUsers);
+        stats.put("totalAdmins", admins);
+        stats.put("totalClients", totalUsers - admins);
+        stats.put("totalTransactions", totalTransactions);
+        stats.put("moyenneEnveloppesParUser", moyenneEnveloppesParUser);
+        stats.put("budgetCount", budgetCount);
+        stats.put("epargneCount", epargneCount);
+        stats.put("comptesVerrouilles", comptesVerrouilles);
+        return stats;
     }
 }
