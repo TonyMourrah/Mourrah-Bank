@@ -1,4 +1,0 @@
-# Dépendances / fichiers générés
-frontend/node_modules/* linguist-vendored
-frontend/dist/* linguist-vendored
-frontend/build/* linguist-vendored
