@@ -19,6 +19,7 @@ public class Transaction {
     private String description;
     private String utilisateurUsername;
 
+    
     public Transaction() {}
 
     public Transaction(String source, String destination, double montant, String description, String utilisateurUsername) {
