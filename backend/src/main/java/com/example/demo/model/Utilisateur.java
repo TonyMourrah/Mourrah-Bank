@@ -14,6 +14,7 @@ public class Utilisateur {
     private String password;
     private String role;
     private String email;
+    
     private boolean emailVerifie = false;
 
     public Utilisateur() {}

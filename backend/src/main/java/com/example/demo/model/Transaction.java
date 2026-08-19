@@ -19,7 +19,7 @@ public class Transaction {
     private String description;
     private String utilisateurUsername;
 
-    
+
     public Transaction() {}
 
     public Transaction(String source, String destination, double montant, String description, String utilisateurUsername) {
@@ -35,6 +35,6 @@ public class Transaction {
     public String getCompteDestinationId() { return compteDestinationId; }
     public double getMontant() { return montant; }
     public LocalDateTime getDateTransaction() { return dateTransaction; }
-    public String getDescription() { return description; }
     public String getUtilisateurUsername() { return utilisateurUsername; }
+    public String getDescription() { return description; }
 }
