@@ -176,7 +176,7 @@ export default function Dashboard() {
             <div className="col-md-4">
               <div
                 className="card border-0 shadow-sm card-hover p-3"
-                style={{ backgroundColor: "#0a2540" }}
+                style={{ backgroundColor: "#0b3d24" }}
               >
                 <div className="d-flex align-items-center gap-3">
                   <i
@@ -306,7 +306,7 @@ export default function Dashboard() {
                   type="number"
                   step="0.01"
                   className="form-control"
-                  placeholder="ex: 0"
+                  placeholder=""
                   value={newMontant}
                   onChange={(e) => setNewMontant(e.target.value)}
                   required
@@ -329,7 +329,7 @@ export default function Dashboard() {
                   type="number"
                   step="0.01"
                   className="form-control"
-                  placeholder={newType === "BUDGET" ? "ex: 300" : "ex: 1000"}
+                  placeholder={newType === "BUDGET" }
                   value={newLimite}
                   onChange={(e) => setNewLimite(e.target.value)}
                 />
@@ -450,7 +450,7 @@ export default function Dashboard() {
       {editing && (
         <div
           className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center fade-in"
-          style={{ backgroundColor: "rgba(10, 37, 64, 0.6)", zIndex: 1050 }}
+          style={{ backgroundColor: "rgba(11, 61, 36, 0.6)", zIndex: 1050 }}
           onClick={closeEdit}
         >
           <div

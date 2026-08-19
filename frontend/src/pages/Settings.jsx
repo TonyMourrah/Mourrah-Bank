@@ -47,13 +47,18 @@ export default function Settings() {
             <div className="d-flex align-items-center gap-3">
               <div
                 className="rounded-circle d-flex align-items-center justify-content-center"
-                style={{ width: '50px', height: '50px', backgroundColor: '#c9a24b', fontSize: '1.2rem', fontWeight: 'bold', color: '#0a2540' }}
+                style={{ width: '50px', height: '50px', backgroundColor: '#c9a24b', fontSize: '1.2rem', fontWeight: 'bold', color: '#0b3d24' }}
               >
                 {user.username.charAt(0).toUpperCase()}
               </div>
               <div>
                 <div className="fw-bold">{user.username}</div>
-                <span className="badge bg-secondary">{user.role}</span>
+                {user.email && (
+                  <div className="text-muted" style={{ fontSize: '0.9rem' }}>
+                    <i className="bi bi-envelope me-1"></i>{user.email}
+                  </div>
+                )}
+                <span className="badge bg-secondary mt-1">{user.role}</span>
               </div>
             </div>
           </div>

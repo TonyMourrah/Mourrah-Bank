@@ -46,7 +46,7 @@ export default function Transactions() {
         {!loading && transactions.length > 0 && (
           <div className="card border-0 shadow-sm card-hover fade-in overflow-hidden">
             <table className="table table-hover mb-0">
-              <thead style={{ backgroundColor: '#0a2540' }}>
+              <thead style={{ backgroundColor: '#0b3d24' }}>
                 <tr>
                   <th className="text-white py-3">Date</th>
                   <th className="text-white py-3">De</th>

@@ -109,7 +109,7 @@ export default function Reallocation() {
       {showConfirm && (
         <div
           className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center fade-in"
-          style={{ backgroundColor: 'rgba(10, 37, 64, 0.6)', zIndex: 1050 }}
+          style={{ backgroundColor: 'rgba(11, 61, 36, 0.6)', zIndex: 1050 }}
           onClick={() => setShowConfirm(false)}
         >
           <div

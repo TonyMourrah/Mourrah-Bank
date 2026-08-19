@@ -2,19 +2,23 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const features = [
-  "Authentification sécurisée avec JWT et rôles utilisateur",
-  "Gestion de comptes bancaires multiples",
-  "Virements entre comptes avec validation de solde",
-  "Historique complet des transactions",
-  "Inscription avec validation de mot de passe (12+ caractères, blocage des mots de passe communs)",
-  "Mots de passe hashés avec BCrypt",
-  "Déploiement cloud complet sur Azure (backend + base de données + frontend)",
+  "Méthode des enveloppes budgétaires avec allocation, suivi et réallocation de fonds",
+  "Deux types d'enveloppes : Budget de dépenses (avec limite) et Épargne (avec objectif)",
+  "Réservoir d'argent non alloué automatique, unique par utilisateur",
+  "Réallocation entre enveloppes avec confirmation avant transfert",
+  "Historique complet des transactions, isolé par utilisateur",
+  "Authentification sécurisée avec JWT et rôles utilisateur (ADMIN/CLIENT)",
+  "Protection contre les attaques par force brute (limitation des tentatives de connexion)",
+  "Mots de passe hashés avec BCrypt et validation de complexité",
+  "Panneau d'administration avec gestion des utilisateurs et statistiques",
+  "Suite de tests automatisés (JUnit, Mockito, MockMvc) intégrée au pipeline CI/CD",
+  "Déploiement cloud complet sur Azure (backend, base de données, frontend)",
   "Pipeline CI/CD automatisé avec GitHub Actions",
 ];
 
 const stack = [
   { name: "React", icon: "bi-filetype-jsx" },
-  { name: "Spring Boot", icon: "bi-leaf" },
+  { name: "Spring Boot 3", icon: "bi-leaf" },
   { name: "Spring Security", icon: "bi-shield-lock" },
   { name: "JWT", icon: "bi-key" },
   { name: "PostgreSQL (local)", icon: "bi-database" },
@@ -22,6 +26,7 @@ const stack = [
   { name: "Azure App Service", icon: "bi-hdd-network" },
   { name: "Azure Static Web Apps", icon: "bi-window" },
   { name: "GitHub Actions (CI/CD)", icon: "bi-gear-fill" },
+  { name: "JUnit & Mockito", icon: "bi-check2-square" },
   { name: "Docker", icon: "bi-box-seam" },
   { name: "Bootstrap 5", icon: "bi-bootstrap-fill" },
 ];
@@ -48,7 +53,7 @@ export default function About() {
               style={{
                 width: '110px',
                 height: '110px',
-                background: 'linear-gradient(135deg, #0d6efd, #0dcaf0)',
+                background: 'linear-gradient(135deg, #0b3d24, #3fa66b)',
               }}
             >
               <i className="bi bi-person-fill text-white" style={{ fontSize: '3.2rem' }}></i>
@@ -65,14 +70,18 @@ export default function About() {
                 >
                   <i className="bi bi-github me-1"></i>GitHub
                 </a>
+
+                
                 <a
                   href="https://www.linkedin.com/in/tony-mourrah-b819551b2/"
                   target="_blank"
                   rel="noreferrer"
-                  className="btn btn-primary btn-sm social-btn"
+                  className="btn text-white btn-sm social-btn"
+                  style={{ backgroundColor: '#0a66c2', borderColor: '#0a66c2' }}
                 >
                   <i className="bi bi-linkedin me-1"></i>LinkedIn
                 </a>
+
                 <a
                   href="mailto:tony.mourrah.1@ens.etsmtl.ca"
                   className="btn btn-outline-secondary btn-sm social-btn"
@@ -88,14 +97,15 @@ export default function About() {
           <div className="col-lg-7">
             <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-1">
               <h5 className="mb-3">
-                <i className="bi bi-info-circle me-2 text-primary"></i>À propos du projet
+                <i className="bi bi-info-circle me-2 text-success"></i>À propos du projet
               </h5>
               <p>
-                <strong>Mourrah Bank</strong> est une application bancaire complète développée
-                pour démontrer un cycle de développement full-stack réel : authentification
-                sécurisée, gestion de comptes, virements entre comptes, historique de
-                transactions, API REST sécurisée en Spring Boot, interface React réactive,
-                et déploiement cloud automatisé sur Azure via un pipeline CI/CD.
+                <strong>Mourrah Envelope</strong> est une application de gestion budgétaire
+                personnelle basée sur la méthode des enveloppes. Le projet couvre un cycle
+                de développement full-stack complet : authentification sécurisée, gestion
+                d'enveloppes avec objectifs et limites, réallocation de fonds, panneau
+                d'administration, suite de tests automatisés, et déploiement cloud
+                entièrement automatisé sur Azure via un pipeline CI/CD.
               </p>
               <h6 className="mt-3 mb-2 fw-bold">Fonctionnalités</h6>
               <ul className="list-unstyled mb-0">
@@ -111,7 +121,7 @@ export default function About() {
           <div className="col-lg-5">
             <div className="card shadow-sm p-4 border-0 card-hover fade-in fade-in-delay-1">
               <h5 className="mb-3">
-                <i className="bi bi-stack me-2 text-primary"></i>Stack technique
+                <i className="bi bi-stack me-2 text-success"></i>Stack technique
               </h5>
               <div className="row g-2">
                 {stack.map((s) => (

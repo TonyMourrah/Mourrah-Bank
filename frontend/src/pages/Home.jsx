@@ -1,70 +1,181 @@
 import { Link } from 'react-router-dom';
 
-const highlights = [
-  { icon: 'bi-shield-lock', text: 'Authentification sécurisée' },
-  { icon: 'bi-arrow-left-right', text: 'Virements instantanés' },
-  { icon: 'bi-clock-history', text: 'Historique complet' },
+const steps = [
+  {
+    num: '01',
+    icon: 'bi-envelope-paper-fill',
+    title: 'Crée tes enveloppes',
+    text: "Divise ton argent en enveloppes — Épicerie, Transport, Épargne — chacune avec son propre rôle.",
+  },
+  {
+    num: '02',
+    icon: 'bi-sliders',
+    title: 'Fixe tes limites',
+    text: 'Donne un budget maximum ou un objectif d\'épargne à chaque enveloppe, suivi visuellement.',
+  },
+  {
+    num: '03',
+    icon: 'bi-arrow-left-right',
+    title: 'Réalloue au besoin',
+    text: 'Dépassé ton budget épicerie ? Transfère des fonds d\'une autre enveloppe en quelques clics.',
+  },
+];
+
+const features = [
+  { icon: 'bi-shield-lock', text: 'Ton compte est protégé — connexion sécurisée et blocage automatique en cas de tentatives suspectes' },
+  { icon: 'bi-bar-chart-line', text: "Visualise en un coup d'œil où tu en es dans chaque budget et chaque objectif d'épargne" },
+  { icon: 'bi-clock-history', text: 'Retrouve facilement tous tes mouvements passés, à toi et à toi seul' },
+  { icon: 'bi-lock', text: 'Tes informations personnelles restent privées et bien protégées' },
 ];
 
 export default function Home() {
   return (
-    <div
-      className="d-flex align-items-center justify-content-center vh-100 position-relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #0a2540 0%, #0d3a5c 60%, #0a2540 100%)' }}
-    >
+    <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: '#f7f8fa' }}>
 
-      <div
-        className="position-absolute rounded-circle"
-        style={{
-          width: '500px', height: '500px',
-          background: 'radial-gradient(circle, rgba(201,162,75,0.15) 0%, transparent 70%)',
-          top: '-150px', right: '-150px',
-        }}
-      />
-      <div
-        className="position-absolute rounded-circle"
-        style={{
-          width: '400px', height: '400px',
-          background: 'radial-gradient(circle, rgba(13,110,253,0.15) 0%, transparent 70%)',
-          bottom: '-120px', left: '-120px',
-        }}
-      />
+      
+      <nav className="navbar navbar-dark px-4 py-3" style={{ backgroundColor: '#1c1f1e' }}>
+        <div className="container-fluid px-0 d-flex justify-content-between align-items-center">
+          <Link to="/" className="navbar-brand d-flex align-items-center gap-2 mb-0">
+            <i className="bi bi-envelope-fill text-accent"></i>
+            Mourrah Envelope
+          </Link>
+          <div className="d-flex gap-2">
+            <Link to="/about" className="btn btn-outline-light btn-sm social-btn">
+              <i className="bi bi-info-circle me-1"></i>À propos
+            </Link>
+            <Link to="/login" className="btn btn-outline-light btn-sm social-btn">
+              <i className="bi bi-box-arrow-in-right me-1"></i>Connexion
+            </Link>
+            <Link to="/register" className="btn btn-light btn-sm social-btn">
+              <i className="bi bi-person-plus me-1"></i>Créer un compte
+            </Link>
+          </div>
+        </div>
+      </nav>
 
-      <div className="text-center text-white px-3 position-relative fade-in" style={{ maxWidth: '640px' }}>
-        <div className="mb-3">
-          <span className="badge rounded-pill px-3 py-2" style={{ backgroundColor: 'rgba(201,162,75,0.15)', color: '#c9a24b' }}>
-            Projet portfolio — Système bancaire
-          </span>
+      
+      <div style={{ background: 'linear-gradient(135deg, #0a3a2a 0%, #135238 100%)' }}>
+        <div className="container py-5">
+          <div className="row align-items-center g-5 py-4">
+            <div className="col-lg-6 text-white fade-in">
+              <span
+                className="badge rounded-pill px-3 py-2 mb-3 d-inline-block"
+                style={{ backgroundColor: 'rgba(201,162,75,0.15)', color: '#c9a24b' }}
+              >
+                Gestion budgétaire personnelle
+              </span>
+              <h1 className="display-5 fw-bold mb-3">
+                Chaque dollar, <span className="text-accent">une destination</span>
+              </h1>
+              <p className="lead text-white-50 mb-4">
+                Mourrah Envelope applique la méthode des enveloppes budgétaires :
+                alloue, suis et réalloue tes fonds avec des objectifs clairs, pas des devinettes.
+              </p>
+              <div className="d-flex gap-3 flex-wrap">
+                <Link to="/register" className="btn btn-light btn-lg px-4 social-btn">
+                  <i className="bi bi-rocket-takeoff me-2"></i>Commencer maintenant
+                </Link>
+                <Link to="/login" className="btn btn-outline-light btn-lg px-4 social-btn">
+                  Se connecter
+                </Link>
+              </div>
+            </div>
+
+            
+            <div className="col-lg-6 fade-in fade-in-delay-1">
+              <div className="card border-0 shadow-lg p-4" style={{ borderRadius: '16px' }}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h6 className="text-muted mb-0">Aperçu de tes enveloppes</h6>
+                  <i className="bi bi-three-dots text-muted"></i>
+                </div>
+
+                <div className="mb-3 p-3 rounded-3" style={{ backgroundColor: '#f7f8fa' }}>
+                  <div className="d-flex justify-content-between mb-1">
+                    <small className="fw-bold">Épicerie</small>
+                    <small className="text-muted">210$ / 300$</small>
+                  </div>
+                  <div className="progress" style={{ height: '8px' }}>
+                    <div className="progress-bar bg-warning" style={{ width: '70%' }} />
+                  </div>
+                </div>
+
+                <div className="mb-3 p-3 rounded-3" style={{ backgroundColor: '#f7f8fa' }}>
+                  <div className="d-flex justify-content-between mb-1">
+                    <small className="fw-bold">Épargne vacances</small>
+                    <small className="text-muted">650$ / 1000$</small>
+                  </div>
+                  <div className="progress" style={{ height: '8px' }}>
+                    <div className="progress-bar bg-success" style={{ width: '65%' }} />
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-3" style={{ backgroundColor: '#f7f8fa' }}>
+                  <div className="d-flex justify-content-between mb-1">
+                    <small className="fw-bold">Transport</small>
+                    <small className="text-muted">40$ / 150$</small>
+                  </div>
+                  <div className="progress" style={{ height: '8px' }}>
+                    <div className="progress-bar bg-info" style={{ width: '27%' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div className="container py-5 flex-grow-1">
+        <div className="text-center mb-5 fade-in">
+          <h2 className="fw-bold">Comment ça fonctionne</h2>
+          <p className="text-muted">Trois étapes simples pour reprendre le contrôle</p>
         </div>
 
-        <h1 className="display-4 fw-bold mb-3">Mourrah Envelope</h1>
-        <p className="lead mb-4 text-white-50">
-          Une application bancaire complète — comptes, virements et historique,
-          sécurisés de bout en bout et déployés sur Azure.
-        </p>
-
-        <div className="d-flex justify-content-center gap-4 mb-5 flex-wrap fade-in fade-in-delay-1">
-          {highlights.map((h) => (
-            <div key={h.text} className="d-flex align-items-center gap-2 text-white-50">
-              <i className={`bi ${h.icon} text-accent`}></i>
-              <small>{h.text}</small>
+        <div className="row g-4 mb-5">
+          {steps.map((s, i) => (
+            <div className="col-md-4" key={s.num}>
+              <div className="text-center fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                <div
+                  className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
+                  style={{ width: '64px', height: '64px', backgroundColor: '#0a3a2a' }}
+                >
+                  <i className={`bi ${s.icon} text-white`} style={{ fontSize: '1.6rem' }}></i>
+                </div>
+                <span className="text-accent fw-bold" style={{ fontSize: '0.85rem' }}>{s.num}</span>
+                <h6 className="fw-bold mt-1">{s.title}</h6>
+                <p className="text-muted" style={{ fontSize: '0.9rem' }}>{s.text}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="d-flex gap-3 justify-content-center flex-wrap mb-4 fade-in fade-in-delay-2">
-          <Link to="/login" className="btn btn-light btn-lg px-4 social-btn">
-            Se connecter
-          </Link>
-          <Link to="/register" className="btn btn-outline-light btn-lg px-4 social-btn">
-            Créer un compte
-          </Link>
+        
+        <div className="card border-0 shadow-sm p-4 p-md-5 fade-in">
+          <div className="row g-4">
+            {features.map((f) => (
+              <div className="col-md-6 d-flex align-items-start gap-3" key={f.text}>
+                <div
+                  className="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                  style={{ width: '40px', height: '40px', backgroundColor: '#f7f8fa' }}
+                >
+                  <i className={`bi ${f.icon} text-success`}></i>
+                </div>
+                <p className="mb-0" style={{ fontSize: '0.95rem' }}>{f.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <Link to="/about" className="text-white-50 text-decoration-none">
-          <i className="bi bi-arrow-right-short"></i> À propos de ce projet
-        </Link>
       </div>
+
+      {/* Footer */}
+      <footer className="text-center py-4" style={{ backgroundColor: '#1c1f1e' }}>
+        <p className="text-white-50 mb-0" style={{ fontSize: '0.9rem' }}>
+          Mourrah Envelope — Projet développé par{' '}
+          <Link to="/about" className="text-accent text-decoration-none fw-bold">
+            Tony Mourrah
+          </Link>
+        </p>
+      </footer>
     </div>
   );
 }

@@ -59,8 +59,10 @@ public class AuthController {
 
         Utilisateur user = new Utilisateur();
         user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole("CLIENT");
+        user.setEmailVerifie(true);
         utilisateurRepository.save(user);
 
         enveloppeService.creerReservoirNonAlloue(user.getUsername());
@@ -75,8 +77,7 @@ public class AuthController {
         if (loginAttemptService.isLocked(username)) {
             long minutes = loginAttemptService.getRemainingLockoutMinutes(username);
             return ResponseEntity.status(429).body(
-                "Trop de tentatives échouées. Réessaie dans " + minutes + " minute(s)."
-            );
+                    "Trop de tentatives échouées. Réessaie dans " + minutes + " minute(s).");
         }
 
         try {
@@ -96,12 +97,10 @@ public class AuthController {
 
             if (remaining > 0) {
                 return ResponseEntity.status(401).body(
-                    "Identifiants incorrects. " + remaining + " tentative(s) restante(s)."
-                );
+                        "Identifiants incorrects. " + remaining + " tentative(s) restante(s).");
             } else {
                 return ResponseEntity.status(429).body(
-                    "Trop de tentatives échouées. Compte temporairement verrouillé."
-                );
+                        "Trop de tentatives échouées. Compte temporairement verrouillé.");
             }
         }
     }
@@ -113,6 +112,7 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         response.put("username", user.getUsername());
         response.put("role", user.getRole());
+        response.put("email", user.getEmail());
         return ResponseEntity.ok(response);
     }
 

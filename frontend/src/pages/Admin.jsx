@@ -87,7 +87,7 @@ export default function Admin() {
             <div className="col-md-3 col-6">
               <div
                 className="card border-0 shadow-sm card-hover p-3"
-                style={{ backgroundColor: "#0a2540" }}
+                style={{ backgroundColor: "#0b3d24" }}
               >
                 <small className="text-white-50">Utilisateurs</small>
                 <h4 className="text-white fw-bold mb-0">{stats.totalUsers}</h4>
@@ -138,7 +138,7 @@ export default function Admin() {
             </h6>
             <div className="card shadow-sm border-0 card-hover fade-in overflow-hidden">
               <table className="table table-hover mb-0">
-                <thead style={{ backgroundColor: "#0a2540" }}>
+                <thead style={{ backgroundColor: "#0b3d24" }}>
                   <tr>
                     <th className="text-white py-3">ID</th>
                     <th className="text-white py-3">Nom d'utilisateur</th>
@@ -185,3 +185,4 @@ export default function Admin() {
     </div>
   );
 }
+
