@@ -171,7 +171,7 @@ export default function Home() {
       <footer className="text-center py-4" style={{ backgroundColor: '#1c1f1e' }}>
         <p className="text-white-50 mb-0" style={{ fontSize: '0.9rem' }}>
           Mourrah Envelope — Projet développé par{' '}
-          <Link to="/about" className="text-accent text-decoration-none fw-bold">
+          <Link to="/portfolio" className="text-accent text-decoration-none fw-bold">
             Tony Mourrah
           </Link>
         </p>

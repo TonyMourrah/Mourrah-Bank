@@ -9,6 +9,7 @@ import Reallocation from './pages/Reallocation';
 import Transactions from './pages/Transactions';
 import Settings from './pages/Settings';
 import Admin from './pages/Admin';
+import Portfolio from './pages/Portfolio';
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -35,6 +36,7 @@ function AppRoutes() {
       <Route path="/transactions" element={<PrivateRoute><Transactions /></PrivateRoute>} />
       <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
       <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
+      <Route path="/portfolio" element={<Portfolio />} />
     </Routes>
   );
 }

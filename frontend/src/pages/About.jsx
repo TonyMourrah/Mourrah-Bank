@@ -1,34 +1,52 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const features = [
-  "Méthode des enveloppes budgétaires avec allocation, suivi et réallocation de fonds",
-  "Deux types d'enveloppes : Budget de dépenses (avec limite) et Épargne (avec objectif)",
-  "Réservoir d'argent non alloué automatique, unique par utilisateur",
-  "Réallocation entre enveloppes avec confirmation avant transfert",
-  "Historique complet des transactions, isolé par utilisateur",
-  "Authentification sécurisée avec JWT et rôles utilisateur (ADMIN/CLIENT)",
-  "Protection contre les attaques par force brute (limitation des tentatives de connexion)",
-  "Mots de passe hashés avec BCrypt et validation de complexité",
-  "Panneau d'administration avec gestion des utilisateurs et statistiques",
-  "Suite de tests automatisés (JUnit, Mockito, MockMvc) intégrée au pipeline CI/CD",
-  "Déploiement cloud complet sur Azure (backend, base de données, frontend)",
-  "Pipeline CI/CD automatisé avec GitHub Actions",
+const steps = [
+  {
+    icon: 'bi-envelope-plus',
+    title: '1. Crée tes enveloppes',
+    text: "Va dans « Enveloppes » et clique sur « Nouvelle enveloppe ». Donne-lui un nom (ex: Épicerie, Loisirs) et choisis un type : Budget de dépenses ou Épargne.",
+  },
+  {
+    icon: 'bi-sliders',
+    title: '2. Choisis Budget ou Épargne',
+    text: "Une enveloppe Budget suit combien tu as dépensé par rapport à une limite (ex: 210$ / 300$ d'épicerie). Une enveloppe Épargne suit ta progression vers un objectif (ex: 650$ / 1000$ pour des vacances).",
+  },
+  {
+    icon: 'bi-piggy-bank',
+    title: '3. Utilise ton réservoir non alloué',
+    text: "Chaque compte a un réservoir « Non alloué » créé automatiquement — c'est ton argent qui n'a pas encore de destination précise. Ajuste son montant depuis le bouton crayon sur sa carte.",
+  },
+  {
+    icon: 'bi-arrow-left-right',
+    title: '4. Réalloue entre tes enveloppes',
+    text: "Va dans « Réallocation », choisis une enveloppe source et une destination, entre un montant, et confirme. Utile pour équilibrer ton budget en cours de mois.",
+  },
+  {
+    icon: 'bi-pencil-square',
+    title: '5. Modifie une enveloppe existante',
+    text: "Clique sur l'icône crayon dans le coin d'une carte pour ajuster son nom, son montant, sa limite ou son objectif à tout moment.",
+  },
+  {
+    icon: 'bi-clock-history',
+    title: '6. Consulte ton historique',
+    text: "La page « Historique » liste toutes tes réallocations passées, avec la date, les enveloppes concernées et le montant — visible uniquement par toi.",
+  },
 ];
 
-const stack = [
-  { name: "React", icon: "bi-filetype-jsx" },
-  { name: "Spring Boot 3", icon: "bi-leaf" },
-  { name: "Spring Security", icon: "bi-shield-lock" },
-  { name: "JWT", icon: "bi-key" },
-  { name: "PostgreSQL (local)", icon: "bi-database" },
-  { name: "Azure SQL Database", icon: "bi-cloud-fill" },
-  { name: "Azure App Service", icon: "bi-hdd-network" },
-  { name: "Azure Static Web Apps", icon: "bi-window" },
-  { name: "GitHub Actions (CI/CD)", icon: "bi-gear-fill" },
-  { name: "JUnit & Mockito", icon: "bi-check2-square" },
-  { name: "Docker", icon: "bi-box-seam" },
-  { name: "Bootstrap 5", icon: "bi-bootstrap-fill" },
+const faq = [
+  {
+    q: "Pourquoi ma barre de progression est-elle rouge ?",
+    a: "Pour une enveloppe Budget, le rouge signifie que tu as atteint ou dépassé ta limite. Pour une enveloppe Épargne, ça n'arrive jamais — le vert indique plutôt que ton objectif est atteint.",
+  },
+  {
+    q: "Puis-je avoir plusieurs enveloppes du même type ?",
+    a: "Oui, autant que tu veux. Le seul réservoir unique est celui « Non alloué », créé automatiquement une seule fois par compte.",
+  },
+  {
+    q: "Mes données sont-elles visibles par d'autres utilisateurs ?",
+    a: "Non. Tes enveloppes, réallocations et historique sont strictement privés à ton compte.",
+  },
 ];
 
 export default function About() {
@@ -46,96 +64,53 @@ export default function About() {
           {isAuthenticated ? 'Retour au dashboard' : "Retour à l'accueil"}
         </Link>
 
-        <div className="card shadow-sm p-4 mb-4 border-0 card-hover fade-in">
-          <div className="d-flex align-items-center gap-4 flex-wrap">
-            <div
-              className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 avatar-glow"
-              style={{
-                width: '110px',
-                height: '110px',
-                background: 'linear-gradient(135deg, #0b3d24, #3fa66b)',
-              }}
-            >
-              <i className="bi bi-person-fill text-white" style={{ fontSize: '3.2rem' }}></i>
-            </div>
-            <div>
-              <h2 className="mb-0 fw-bold">Tony Mourrah</h2>
-              <p className="text-muted mb-2">Étudiant en génie logiciel — ÉTS</p>
-              <div className="d-flex gap-2 flex-wrap">
-                <a
-                  href="https://github.com/TonyMourrah"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-dark btn-sm social-btn"
-                >
-                  <i className="bi bi-github me-1"></i>GitHub
-                </a>
-
-                
-                <a
-                  href="https://www.linkedin.com/in/tony-mourrah-b819551b2/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn text-white btn-sm social-btn"
-                  style={{ backgroundColor: '#0a66c2', borderColor: '#0a66c2' }}
-                >
-                  <i className="bi bi-linkedin me-1"></i>LinkedIn
-                </a>
-
-                <a
-                  href="mailto:tony.mourrah.1@ens.etsmtl.ca"
-                  className="btn btn-outline-secondary btn-sm social-btn"
-                >
-                  <i className="bi bi-envelope me-1"></i>tony.mourrah.1@ens.etsmtl.ca
-                </a>
-              </div>
-            </div>
-          </div>
+        <div className="text-center mb-5 fade-in">
+          <h2 className="fw-bold">Comment utiliser Mourrah Envelope</h2>
+          <p className="text-muted">Un petit guide pour bien démarrer avec la méthode des enveloppes</p>
         </div>
 
-        <div className="row g-4">
-          <div className="col-lg-7">
-            <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-1">
-              <h5 className="mb-3">
-                <i className="bi bi-info-circle me-2 text-success"></i>À propos du projet
-              </h5>
-              <p>
-                <strong>Mourrah Envelope</strong> est une application de gestion budgétaire
-                personnelle basée sur la méthode des enveloppes. Le projet couvre un cycle
-                de développement full-stack complet : authentification sécurisée, gestion
-                d'enveloppes avec objectifs et limites, réallocation de fonds, panneau
-                d'administration, suite de tests automatisés, et déploiement cloud
-                entièrement automatisé sur Azure via un pipeline CI/CD.
-              </p>
-              <h6 className="mt-3 mb-2 fw-bold">Fonctionnalités</h6>
-              <ul className="list-unstyled mb-0">
-                {features.map((f) => (
-                  <li key={f} className="mb-2">
-                    <i className="bi bi-check-circle-fill text-success me-2"></i>{f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="col-lg-5">
-            <div className="card shadow-sm p-4 border-0 card-hover fade-in fade-in-delay-1">
-              <h5 className="mb-3">
-                <i className="bi bi-stack me-2 text-success"></i>Stack technique
-              </h5>
-              <div className="row g-2">
-                {stack.map((s) => (
-                  <div className="col-6" key={s.name}>
-                    <div className="tech-badge">
-                      <i className={`bi ${s.icon}`}></i>
-                      {s.name}
-                    </div>
+        <div className="row g-4 mb-5">
+          {steps.map((s, i) => (
+            <div className="col-md-6" key={s.title}>
+              <div
+                className="card h-100 border-0 shadow-sm card-hover p-4 fade-in"
+                style={{ animationDelay: `${i * 0.06}s` }}
+              >
+                <div className="d-flex gap-3 align-items-start">
+                  <div
+                    className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
+                    style={{ width: '44px', height: '44px', backgroundColor: '#0b3d24' }}
+                  >
+                    <i className={`bi ${s.icon} text-white`}></i>
                   </div>
-                ))}
+                  <div>
+                    <h6 className="fw-bold mb-1">{s.title}</h6>
+                    <p className="text-muted mb-0" style={{ fontSize: '0.92rem' }}>{s.text}</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
+
+        <div className="card border-0 shadow-sm p-4 p-md-5 fade-in">
+          <h5 className="fw-bold mb-4">
+            <i className="bi bi-question-circle text-primary me-2"></i>Questions fréquentes
+          </h5>
+          {faq.map((f, i) => (
+            <div key={f.q} className={i < faq.length - 1 ? 'mb-4 pb-4 border-bottom' : ''}>
+              <h6 className="fw-bold">{f.q}</h6>
+              <p className="text-muted mb-0" style={{ fontSize: '0.92rem' }}>{f.a}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-center text-muted mt-4" style={{ fontSize: '0.85rem' }}>
+          Envie d'en savoir plus sur le projet ?{' '}
+          <Link to="/portfolio" className="fw-bold" style={{ color: '#0b3d24' }}>
+            Découvre l'histoire derrière Mourrah Envelope
+          </Link>
+        </p>
       </div>
     </div>
   );
