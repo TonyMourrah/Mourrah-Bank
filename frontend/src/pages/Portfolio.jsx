@@ -53,7 +53,7 @@ export default function Portfolio() {
               style={{
                 width: '110px',
                 height: '110px',
-                background: 'linear-gradient(135deg, #0b3d24, #3fa66b)',
+                background: 'linear-gradient(135deg, #004182, #0a66c2)'
               }}
             >
               <i className="bi bi-person-fill text-white" style={{ fontSize: '3.2rem' }}></i>
