@@ -46,6 +46,7 @@ export default function Portfolio() {
           {isAuthenticated ? 'Retour au dashboard' : "Retour à l'accueil"}
         </Link>
 
+        {/* Carte de Profil */}
         <div className="card shadow-sm p-4 mb-4 border-0 card-hover fade-in">
           <div className="d-flex align-items-center gap-4 flex-wrap">
             <div
@@ -92,9 +93,36 @@ export default function Portfolio() {
           </div>
         </div>
 
+        {/* Section Pourquoi ce projet */}
+        <div className="card border-0 shadow-sm p-4 p-md-5 mb-4 fade-in fade-in-delay-1">
+          <h5 className="fw-bold mb-3">
+            <i className="bi bi-chat-quote text-primary me-2"></i>Pourquoi ce projet
+          </h5>
+          <p className="mb-3">
+            Je suis étudiant en génie logiciel à l'ÉTS, et j'ai un vrai intérêt pour tout ce qui touche
+            au développement full-stack — de la conception d'une base de données jusqu'au déploiement
+            en production. J'aime particulièrement comprendre comment toutes les pièces s'assemblent :
+            la sécurité, l'architecture cloud, et l'expérience utilisateur.
+          </p>
+          <p className="mb-3">
+            L'idée de Mourrah Envelope est née d'un vrai besoin personnel. Comme beaucoup d'étudiants,
+            je cherchais une façon simple de suivre mon budget sans me casser la tête avec des tableurs
+            compliqués ou des applications trop chargées. La méthode des enveloppes m'a toujours semblé
+            la plus intuitive — visualiser concrètement où va chaque dollar, plutôt que de regarder un
+            seul chiffre global qui ne raconte pas vraiment l'histoire complète de mes finances.
+          </p>
+          <p className="mb-0">
+            Ce projet m'a aussi permis de mettre en pratique des concepts que je voulais maîtriser
+            en profondeur : l'authentification sécurisée, l'isolation des données par utilisateur,
+            les tests automatisés, et un vrai pipeline CI/CD de bout en bout. C'est autant un outil
+            que j'utilise moi-même qu'une démonstration de ce que je suis capable de construire.
+          </p>
+        </div>
+
+        {/* À propos du projet & Stack technique */}
         <div className="row g-4">
           <div className="col-lg-7">
-            <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-1">
+            <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-2">
               <h5 className="mb-3">
                 <i className="bi bi-info-circle me-2 text-primary"></i>À propos du projet
               </h5>
@@ -118,7 +146,7 @@ export default function Portfolio() {
           </div>
 
           <div className="col-lg-5">
-            <div className="card shadow-sm p-4 border-0 card-hover fade-in fade-in-delay-1">
+            <div className="card shadow-sm p-4 border-0 card-hover fade-in fade-in-delay-2">
               <h5 className="mb-3">
                 <i className="bi bi-stack me-2 text-primary"></i>Stack technique
               </h5>
@@ -135,6 +163,7 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
