@@ -46,7 +46,7 @@ export default function Portfolio() {
           {isAuthenticated ? 'Retour au dashboard' : "Retour à l'accueil"}
         </Link>
 
-        {/* Carte de Profil */}
+        
         <div className="card shadow-sm p-4 mb-4 border-0 card-hover fade-in">
           <div className="d-flex align-items-center gap-4 flex-wrap">
             <div
@@ -93,7 +93,7 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Section Pourquoi ce projet */}
+        
         <div className="card border-0 shadow-sm p-4 p-md-5 mb-4 fade-in fade-in-delay-1">
           <h5 className="fw-bold mb-3">
             <i className="bi bi-chat-quote text-primary me-2"></i>Pourquoi ce projet
@@ -119,7 +119,7 @@ export default function Portfolio() {
           </p>
         </div>
 
-        {/* À propos du projet & Stack technique */}
+        
         <div className="row g-4">
           <div className="col-lg-7">
             <div className="card shadow-sm p-4 h-100 border-0 card-hover fade-in fade-in-delay-2">

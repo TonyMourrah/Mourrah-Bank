@@ -36,7 +36,10 @@ export default function Navbar() {
           </Link>
         )}
         <Link className="nav-link text-white-50 nav-hover" to="/about">
-          À propos
+          Tutoriel
+        </Link>
+        <Link className="nav-link text-white-50 nav-hover" to="/Portfolio">
+          Portfolio
         </Link>
       </div>
       {user && (
