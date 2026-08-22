@@ -60,7 +60,7 @@ export default function Home() {
           </Link>
           <div className="d-flex gap-2">
             <Link
-              to="/tutoriel"
+              to="/about"
               className="btn btn-outline-light btn-sm social-btn"
             >
               <i className="bi bi-info-circle me-1"></i>Tutoriel
